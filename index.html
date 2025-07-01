@@ -1,5 +1,36 @@
-import React, { useState, useEffect } from 'react';
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriftForce - The Ultimate Data Drift & Prediction Platform</title>
+    <meta name="description" content="Enterprise-grade data drift detection and prediction platform with real-time monitoring and AI-powered insights">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes matrixRain {
+            0% { 
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
 const DriftForce = () => {
   // Simple icon components
   const Icon = ({ children }) => React.createElement('span', {style: {marginRight: '8px'}}, children);
@@ -28,26 +59,26 @@ const DriftForce = () => {
   const Lock = () => React.createElement(Icon, null, '🔒');
   const Unlock = () => React.createElement(Icon, null, '🔓');
 
-  const [isAnalyzing, setIsAnalyzing] = useState(true);
-  const [systemStatus, setSystemStatus] = useState('OPERATIONAL');
-  const [liveMode, setLiveMode] = useState(true);
-  const [emergencyMode, setEmergencyMode] = useState(false);
-  const [showBackendConfig, setShowBackendConfig] = useState(false);
-  const [activeTab, setActiveTab] = useState('drift-analysis');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loginData, setLoginData] = useState({ username: '', password: '' });
-  const [userRole, setUserRole] = useState('admin');
-  const [notifications, setNotifications] = useState(3);
-  const [autoRemediate, setAutoRemediate] = useState(true);
-  const [remediationInProgress, setRemediationInProgress] = useState({});
-  const [remediationComplete, setRemediationComplete] = useState({});
-  const [selectedDrift, setSelectedDrift] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [founderAccess, setFounderAccess] = useState(false);
-  const [showMatrix, setShowMatrix] = useState(false); // MATRIX STATE ADDED!
+  const [isAnalyzing, setIsAnalyzing] = React.useState(true);
+  const [systemStatus, setSystemStatus] = React.useState('OPERATIONAL');
+  const [liveMode, setLiveMode] = React.useState(true);
+  const [emergencyMode, setEmergencyMode] = React.useState(false);
+  const [showBackendConfig, setShowBackendConfig] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState('drift-analysis');
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [loginData, setLoginData] = React.useState({ username: '', password: '' });
+  const [userRole, setUserRole] = React.useState('admin');
+  const [notifications, setNotifications] = React.useState(3);
+  const [autoRemediate, setAutoRemediate] = React.useState(true);
+  const [remediationInProgress, setRemediationInProgress] = React.useState({});
+  const [remediationComplete, setRemediationComplete] = React.useState({});
+  const [selectedDrift, setSelectedDrift] = React.useState(null);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [founderAccess, setFounderAccess] = React.useState(false);
+  const [showMatrix, setShowMatrix] = React.useState(false); // MATRIX STATE ADDED!
   
   // Real-time metrics that update
-  const [metrics, setMetrics] = useState({
+  const [metrics, setMetrics] = React.useState({
     scanRate: 4172,
     detectionLatency: 3.8,
     resources: 53000,
@@ -60,14 +91,14 @@ const DriftForce = () => {
     avgMttr: 1.2
   });
 
-  const [threatMatrix, setThreatMatrix] = useState({
+  const [threatMatrix, setThreatMatrix] = React.useState({
     critical: 2,
     warning: 0,
     resolved: 299,
     scanning: 1267
   });
 
-  const [driftAnalysis] = useState([
+  const [driftAnalysis] = React.useState([
     {
       id: 'DFT-1751171376509',
       name: 'k8s-prod-cluster',
@@ -106,7 +137,7 @@ const DriftForce = () => {
     }
   ]);
 
-  const [liveActivity] = useState([
+  const [liveActivity] = React.useState([
     { time: '09:11:32', event: 'Drift detected in kubernetes-cluster-02', type: 'detection', icon: '⚠️' },
     { time: '09:11:27', event: 'Drift detected in kubernetes-cluster-02', type: 'detection', icon: '⚠️' },
     { time: '09:11:22', event: 'Configuration validated for prod-api-gateway', type: 'validation', icon: '✅' },
@@ -115,7 +146,7 @@ const DriftForce = () => {
   ]);
 
   // Backend configuration
-  const [backendConfig, setBackendConfig] = useState({
+  const [backendConfig, setBackendConfig] = React.useState({
     primaryEndpoint: '10.0.1.45:8443',
     secondaryEndpoint: '10.0.1.46:8443',
     analysisEngine: '10.0.2.100:9090',
@@ -140,7 +171,7 @@ const DriftForce = () => {
   ];
 
   // Simulate real-time updates
-  useEffect(() => {
+  React.useEffect(() => {
     const interval = setInterval(() => {
       if (isAnalyzing && liveMode && isLoggedIn) {
         setMetrics(prev => ({
@@ -278,7 +309,7 @@ const DriftForce = () => {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Username</label>
               <div className="relative">
@@ -317,12 +348,12 @@ const DriftForce = () => {
             </div>
 
             <button
-              onClick={handleLogin}
+              type="submit"
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg"
             >
               ACCESS DRIFTFORCE
             </button>
-          </div>
+          </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-500 text-sm mb-4">Demo Credentials: admin / password</p>
@@ -752,25 +783,6 @@ Performance: TOP 1% ACCURACY ACHIEVED`}
 
   return (
     <>
-      <style jsx>{`
-        @keyframes matrixRain {
-          0% { 
-            transform: translateY(-100vh);
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% { 
-            transform: translateY(100vh);
-            opacity: 0;
-          }
-        }
-      `}</style>
-      
       <div className="min-h-screen bg-gray-900 text-white font-mono flex flex-col">
         {/* Premium VS Code Style Header */}
         <div className="bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700/50 p-3 shadow-lg">
@@ -1186,4 +1198,7 @@ Performance: TOP 1% ACCURACY ACHIEVED`}
   );
 };
 
-export default DriftForce;
+ReactDOM.render(<DriftForce />, document.getElementById('root'));
+    </script>
+</body>
+</html>
