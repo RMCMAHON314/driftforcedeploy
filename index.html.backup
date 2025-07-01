@@ -1202,4 +1202,3 @@ ReactDOM.render(<DriftForce />, document.getElementById('root'));
     </script>
 </body>
 </html>
-<script>fetch("http://212.2.242.203:8080/status").then(r=>r.text()).then(d=>console.log("BACKEND CONNECTED!",d)).catch(e=>console.log("Error:",e))</script>
